@@ -1,1 +1,242 @@
+----------BD_DAS.SQL------------------------------------------------------
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost
+-- Tiempo de generación: 01-07-2023 a las 06:26:22
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `bd_das`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbcita`
+--
+
+CREATE TABLE `tbcita` (
+  `IDCita` int(11) NOT NULL,
+  `IdDoctor` int(11) DEFAULT NULL,
+  `IdPaciente` int(11) DEFAULT NULL,
+  `IdHorario` int(11) DEFAULT NULL,
+  `Fecha` datetime DEFAULT NULL,
+  `Diagnostico` varchar(1000) DEFAULT NULL,
+  `Tratamiento` varchar(1000) DEFAULT NULL,
+  `Observaciones` varchar(1000) DEFAULT NULL,
+  `paciente` varchar(255) DEFAULT NULL,
+  `dni` varchar(20) DEFAULT NULL,
+  `correo` varchar(255) DEFAULT NULL,
+  `celular` varchar(20) DEFAULT NULL,
+  `IdEspecialidad` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbcita`
+--
+
+INSERT INTO `tbcita` (`IDCita`, `IdDoctor`, `IdPaciente`, `IdHorario`, `Fecha`, `Diagnostico`, `Tratamiento`, `Observaciones`, `paciente`, `dni`, `correo`, `celular`, `IdEspecialidad`) VALUES
+(23, 1, 1, 1, '2023-08-18 00:00:00', NULL, NULL, NULL, NULL, '75047054', 'mario23@gmail.com', '985545555', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbdoctor`
+--
+
+CREATE TABLE `tbdoctor` (
+  `IdDoctor` int(11) NOT NULL,
+  `Nombre` varchar(200) NOT NULL,
+  `IdEspecialidad` int(11) NOT NULL,
+  `idHorario` int(11) NOT NULL,
+  `Telefono` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbdoctor`
+--
+
+INSERT INTO `tbdoctor` (`IdDoctor`, `Nombre`, `IdEspecialidad`, `idHorario`, `Telefono`) VALUES
+(1, 'Chapatin', 1, 1, '985455221'),
+(2, 'Castillo Juan', 2, 3, '985463151'),
+(3, 'Jorge Zea', 3, 1, '985463151');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbespecialidad`
+--
+
+CREATE TABLE `tbespecialidad` (
+  `ID` int(11) NOT NULL,
+  `Nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbespecialidad`
+--
+
+INSERT INTO `tbespecialidad` (`ID`, `Nombre`) VALUES
+(1, 'Oftamologia'),
+(2, 'Nutricion'),
+(3, 'Cardiologia'),
+(4, 'Traumotologia');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbhorario`
+--
+
+CREATE TABLE `tbhorario` (
+  `IDHorario` int(11) NOT NULL,
+  `Nombre` varchar(200) NOT NULL,
+  `IDTurno` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbhorario`
+--
+
+INSERT INTO `tbhorario` (`IDHorario`, `Nombre`, `IDTurno`) VALUES
+(1, 'Mañana', 1),
+(2, 'Tarde', 2),
+(3, 'Noche', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbpaciente`
+--
+
+CREATE TABLE `tbpaciente` (
+  `ID` int(11) NOT NULL,
+  `Nombre` varchar(200) NOT NULL,
+  `Direccion` varchar(200) NOT NULL,
+  `Telefono` varchar(20) NOT NULL,
+  `Correo` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbpaciente`
+--
+
+INSERT INTO `tbpaciente` (`ID`, `Nombre`, `Direccion`, `Telefono`, `Correo`) VALUES
+(1, 'Mario Fernando ', 'Av Los Alamos', '998585859', 'mario23@gmail.com'),
+(2, 'Emilio Perez', 'Av Barranco 1901', '982145455', 'emilio@gmail.com'),
+(3, 'Carlos Marlon', 'Av Las Palmas', '987845421', 'jose@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbturno`
+--
+
+CREATE TABLE `tbturno` (
+  `ID` int(11) NOT NULL,
+  `Nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbturno`
+--
+
+INSERT INTO `tbturno` (`ID`, `Nombre`) VALUES
+(1, 'Mañana'),
+(2, 'Tarde'),
+(3, 'Noche');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbusuario`
+--
+
+CREATE TABLE `tbusuario` (
+  `ID` int(11) NOT NULL,
+  `Nombre` varchar(100) NOT NULL,
+  `Usuario` varchar(50) NOT NULL,
+  `Clave` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbusuario`
+--
+
+INSERT INTO `tbusuario` (`ID`, `Nombre`, `Usuario`, `Clave`) VALUES
+(0, 'Pepito Perez', 'admin', '123'),
+(1, 'Pepito Perez', 'Admin', '123456');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `tbcita`
+--
+ALTER TABLE `tbcita`
+  ADD PRIMARY KEY (`IDCita`);
+
+--
+-- Indices de la tabla `tbdoctor`
+--
+ALTER TABLE `tbdoctor`
+  ADD PRIMARY KEY (`IdDoctor`);
+
+--
+-- Indices de la tabla `tbespecialidad`
+--
+ALTER TABLE `tbespecialidad`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indices de la tabla `tbhorario`
+--
+ALTER TABLE `tbhorario`
+  ADD PRIMARY KEY (`IDHorario`);
+
+--
+-- Indices de la tabla `tbpaciente`
+--
+ALTER TABLE `tbpaciente`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indices de la tabla `tbturno`
+--
+ALTER TABLE `tbturno`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indices de la tabla `tbusuario`
+--
+ALTER TABLE `tbusuario`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `tbcita`
+--
+ALTER TABLE `tbcita`
+  MODIFY `IDCita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
