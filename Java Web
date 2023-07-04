@@ -1,1 +1,2141 @@
+******************Borracitas.jsp***********************
+*******************************************************
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Editar cita</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>        
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <br>
+                    <h3>Eliminar cita</h3>
+                    <form class="form" action="./Citas" method="POST">
+                        <div class="form-group" style="text-align:left;">
+                            <label  for="idcita" class="form-label">ID</label>
+                            <input class="form-control" value="<%= request.getParameter("idcita")%>"  name="idcita" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label  for="especialidad" class="form-label">Especialidad</label>
+                            <input class="form-control" value="<%= request.getParameter("especialidad")%>"  name="especialidad" readonly="readonly" type="text" placeholder="Ingrese especialidad"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label  for="doctor" class="form-label">Doctor</label>
+                            <input class="form-control" value="<%= request.getParameter("doctor")%>"  name="doctor" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label  for="horario" class="form-label">Turno</label>
+                            <input class="form-control" value="<%= request.getParameter("horario")%>"  name="horario" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label  for="fecha" class="form-label">Fecha</label>
+                            <input class="form-control" value="<%= request.getParameter("fecha")%>"  name="horario" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="paciente" class="form-label">Paciente</label>
+                            <input class="form-control" value="<%= request.getParameter("paciente")%>"  name="paciente" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="correo" class="form-label">Correo</label>
+                            <input class="form-control" value="<%= request.getParameter("correo")%>"  name="correo" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="dni" class="form-label">DNI</label>
+                            <input class="form-control" value="<%= request.getParameter("dni")%>"  name="dni" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="celular" class="form-label">Celular</label>
+                            <input class="form-control" value="<%= request.getParameter("celular")%>"  name="celular" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <input type="hidden" value="B" name="accion" />
+                        <br>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Eliminar</button>
+                            <a href="./Citas" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+***********borradordoctor.jsp****
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Editar Doctor</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>        
+                                <br>
+                        <br>
+
+        <div class="container" style="width: 50%;">            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Editar doctor</h3>
+                    <form class="form" action="./Doctor" method="POST">
+                        <div class="form-group">
+                            <label  for="iddoctor" class="form-label">ID</label>
+                            <input class="form-control" value="<%= request.getParameter("iddoctor") %>"  name="iddoctor" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label  for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control"  name="nombre" value="<%= request.getParameter("nombre") %>" type="text" placeholder="Ingrese Nombre"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label  for="idespecialidad" class="form-label">Especialidad</label>
+                            <select class="form-control" name="idespecialidad"> 
+                                <option value="-1">Selecciona una especialidad</option>
+                                <% 
+                                    try
+                                    {
+                                        String Query = "SELECT * FROM tbespecialidad";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das","root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while(rs.next())
+                                        {  
+                                            %>
+                                            <option value="<%=rs.getInt("ID")%>" <% if(rs.getString("ID").equals((request.getParameter("idespecialidad")))){out.println("SELECTED");} %> > <%=rs.getString("Nombre")%></option>
+
+                                            <%
+                                        }
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        ex.printStackTrace();
+                                        out.println("Error: "+ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                            <br>
+                        <div class="form-group">
+                            <label  for="idhorario" class="form-label">Turno</label>
+                            <select class="form-control"  name="idhorario"> 
+                                <option value="-1">Selecciona un turno</option>
+                                <% 
+                                    try
+                                    {
+                                        String Query = "SELECT * FROM tbturno";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das","root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while(rs.next())
+                                        {  
+                                            %>
+                                                <option value="<%=rs.getInt("ID")%>" <% if(rs.getString("ID").equals((request.getParameter("idhorario")))){out.println("SELECTED");} %> ><%=rs.getString("Nombre")%></option>
+
+                                            <%
+                                        }
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        ex.printStackTrace();
+                                        out.println("Error: "+ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                            <br>
+                        <div class="form-group">
+                            <label  for="telefono" class="form-label">Telefono</label>
+                            <input class="form-control" name="telefono" value="<%= request.getParameter("telefono") %>" type="text" placeholder="Ingrese Telefono"/>
+                        </div>
+                        <br>
+                        <input type="hidden" value="E" name="accion" />
+                        <br>
+                       <div class="d-grid gap-2" style="width: 100%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+                            <a href="./Doctor" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+****************borraespecialidad.jsp***********
+************************************************
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Eliminar Especialidad</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <br>
+        <br>
+        <div class="container" style="width: 50%;">            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Eliminar Especialidad</h3>
+                    <br>
+                    <form class="form" action="./Especialidad" method="POST">
+                        <div class="form-group">
+                            <label  for="id" class="form-label">ID</label>
+                            <input class="form-control" value="<%= request.getParameter("id")%>"  name="id" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label  for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control"  name="nombre" value="<%= request.getParameter("nombre")%>" type="text" placeholder="Ingrese Nombre"/>
+                        </div>  
+                        <br>
+                        <input type="hidden" value="B" name="accion" />
+                        <br>
+                        <p class="text-center red">ESTA ACCION ELIMINA EL REGISTRO, ¿DESEA PROCEDER?</p>
+                        <div class="d-grid gap-2" style="width: 100%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Eliminar</button>
+                            <a href="./Especialidad" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+********borrarpaciente.jsp******
+********************************
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Eliminar Especialidad</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <br>
+        <br>
+        <div class="container" style="width: 50%;">            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Eliminar Especialidad</h3>
+                    <br>
+                    <form class="form" action="./Especialidad" method="POST">
+                        <div class="form-group">
+                            <label  for="id" class="form-label">ID</label>
+                            <input class="form-control" value="<%= request.getParameter("id")%>"  name="id" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label  for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control"  name="nombre" value="<%= request.getParameter("nombre")%>" type="text" placeholder="Ingrese Nombre"/>
+                        </div>  
+                        <br>
+                        <input type="hidden" value="B" name="accion" />
+                        <br>
+                        <p class="text-center red">ESTA ACCION ELIMINA EL REGISTRO, ¿DESEA PROCEDER?</p>
+                        <div class="d-grid gap-2" style="width: 100%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Eliminar</button>
+                            <a href="./Especialidad" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+*********editarcita.jsp….
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Editar Cita</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <br>
+                    <h3>Editar cita</h3>
+                    <form class="form" action="./Citas" method="POST">
+                        <div class="form-group" style="text-align:left;">
+                            <label  for="idcita" class="form-label">ID</label>
+                            <input class="form-control" value="<%= request.getParameter("idcita")%>"  name="idcita" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="idespecialidad" class="form-label ">Especialidad</label>
+                            <select class="form-select" name="idespecialidad"> 
+                                <option value="-1">Selecciona una especialidad</option>
+                                <%
+                                    try {
+                                        String Query = "SELECT * FROM tbespecialidad";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das", "root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while (rs.next()) {
+                                %>
+                                <option value="<%=rs.getInt("ID")%>" <% if (rs.getString("ID").equals((request.getParameter("idespecialidad")))) {
+                                        out.println("SELECTED");
+                                    }%> > <%=rs.getString("Nombre")%></option>
+
+                                <%
+                                        }
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        out.println("Error: " + ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="iddoctor" class="form-label ">Doctor</label>
+                            <select class="form-select" name="iddoctor"> 
+                                <option value="-1">Selecciona una Doctor</option>
+                                <%
+                                    try {
+                                        String Query = "SELECT * FROM tbdoctor";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das", "root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while (rs.next()) {
+                                %>
+                                <option value="<%=rs.getInt("IdDoctor")%>" <% if (rs.getString("IdDoctor").equals((request.getParameter("iddoctor")))) {
+                                        out.println("SELECTED");
+                                    }%> > <%=rs.getString("Nombre")%></option>
+
+                                <%
+                                        }
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        out.println("Error: " + ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label  for="idhorario" class="form-label">Turno</label>
+                            <select class="form-control" readonly="readonly" name="idhorario"> 
+                                <option value="-1">Selecciona un turno</option>
+                                <%
+                                    try {
+                                        String Query = "SELECT * FROM tbturno";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das", "root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while (rs.next()) {
+                                %>
+                                <option value="<%=rs.getInt("ID")%>" <% if (rs.getString("ID").equals((request.getParameter("idhorario")))) {
+                                        out.println("SELECTED");
+                                    }%> ><%=rs.getString("Nombre")%></option>
+
+                                <%
+                                        }
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        out.println("Error: " + ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="fecha" class="form-label">Fecha</label>
+                            <input class="form-control" value="<%= request.getParameter("fecha")%>" name="fecha" type="text" placeholder="Seleccione una fecha"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="idpaciente" class="form-label ">Paciente</label>
+                            <select class="form-select" name="idpaciente"> 
+                                <option value="-1">Selecciona un paciente</option>
+                                <%
+                                    try {
+                                        String Query = "SELECT * FROM tbpaciente";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das", "root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while (rs.next()) {
+                                %>
+                                <option value="<%=rs.getInt("ID")%>" <% if (rs.getString("ID").equals((request.getParameter("idpaciente")))) {
+                                        out.println("SELECTED");
+                                    }%> > <%=rs.getString("Nombre")%></option>
+
+                                <%
+                                        }
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        out.println("Error: " + ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="correo" class="form-label">Correo</label>
+                            <input class="form-control" value="<%= request.getParameter("correo")%>" name="correo" type="email" placeholder="Ingrese su correo"/>
+                        </div>
+
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="dni" class="form-label">DNI</label>
+                            <input class="form-control" value="<%= request.getParameter("dni")%>" name="dni" type="text" placeholder="Ingrese su DNI"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="celular" class="form-label">Celular</label>
+                            <input class="form-control" value="<%= request.getParameter("celular")%>" name="celular" type="text" placeholder="Ingrese su celular"/>
+                        </div>
+                        <br>
+                        <input type="hidden" value="E" name="accion" />
+                        <br>
+                       <div class="d-grid gap-2" style="width: 100%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+                            <a href="./Citas" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+*****editardoctor.jsp***
+************************
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Editar Doctor</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+          <br>
+            <br>
+       <div class="container" style="width: 50%;">            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Eliminar Doctor</h3>
+                               <br>
+                    <form class="form" action="./Doctor" method="POST">
+                        <div class="form-group">
+                            <label  for="iddoctor" class="form-label">ID</label>
+                            <input class="form-control" value="<%= request.getParameter("iddoctor") %>"  name="iddoctor" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                                           <br>
+                        <div class="form-group">
+                            <label  for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control"  name="nombre" readonly="readonly" value="<%= request.getParameter("nombre") %>" type="text" placeholder="Ingrese Nombre"/>
+                        </div>
+                                           <br>
+                        <div class="form-group">
+                            <label  for="idespecialidad" class="form-label">Especialidad</label>
+                            <select class="form-control" style="width: 250px" readonly="readonly" name="idespecialidad"> 
+                                <option value="-1">Selecciona una especialidad</option>
+                                <% 
+                                    try
+                                    {
+                                        String Query = "SELECT * FROM tbespecialidad";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das","root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while(rs.next())
+                                        {  
+                                            %>
+                                            <option value="<%=rs.getInt("ID")%>" <% if(rs.getString("ID").equals((request.getParameter("idespecialidad")))){out.println("SELECTED");} %> > <%=rs.getString("Nombre")%></option>
+
+                                            <%
+                                        }
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        ex.printStackTrace();
+                                        out.println("Error: "+ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                                               <br>
+                        <div class="form-group">
+                            <label  for="idhorario" class="form-label">Turno</label>
+                            <select class="form-control" readonly="readonly" style="width: 250px" name="idhorario"> 
+                                <option value="-1">Selecciona un turno</option>
+                                <% 
+                                    try
+                                    {
+                                        String Query = "SELECT * FROM tbturno";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das","root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while(rs.next())
+                                        {  
+                                            %>
+                                                <option value="<%=rs.getInt("ID")%>" <% if(rs.getString("ID").equals((request.getParameter("idhorario")))){out.println("SELECTED");} %> ><%=rs.getString("Nombre")%></option>
+
+                                            <%
+                                        }
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        ex.printStackTrace();
+                                        out.println("Error: "+ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                                               <br>
+                        <div class="form-group">
+                            <label  for="telefono" class="form-label">Telefono</label>
+                            <input class="form-control" readonly="readonly" name="telefono" value="<%= request.getParameter("telefono") %>" type="text" placeholder="Ingrese Telefono"/>
+                        </div>
+                                           <br>
+                        <input type="hidden" value="B" name="accion" />
+                        <br>
+                        <p class="text-center red">ESTA ACCION ELIMINA EL REGISTRO, ¿DESEA PROCEDER?</p>
+                                                <div class="d-grid gap-2" style="width: 100%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Eliminar</button>
+                            <a href="./Doctor" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+**************editarespecialidad.jsp******
+******************************************
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Editar Especialidad</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>        
+        <br>
+        <br>
+
+        <div class="container" style="width: 50%;">            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Editar Especialidad</h3>
+                    <br>
+                    <form class="form" action="./Especialidad" method="POST">
+                        <div class="form-group">
+                            <label  for="id" class="form-label">ID</label>
+                            <input class="form-control" value="<%= request.getParameter("id")%>"  name="id" readonly="readonly" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label  for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control"  name="nombre" value="<%= request.getParameter("nombre")%>" type="text" placeholder="Ingrese Nombre"/>
+                        </div>
+                        <br>
+                        <input type="hidden" value="E" name="accion" />
+                        <br>
+                        <div class="d-grid gap-2" style="width: 100%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+                            <a href="./Especialidad" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+***********editar paciente.jsp********
+**************************************
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Registrar Paciente</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <br>
+        <br>
+
+        <div class="container" style="width: 50%;">            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Editar paciente</h3>
+                    <br>
+                    <form class="form" action="./Paciente" method="POST">
+                        <div class="form-group">
+                            <label  for="id" class="form-label">ID</label>
+                            <input  class="form-control" name="id" value="<%= request.getParameter("id")%>" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label  for="nombre" class="form-label">Nombre</label>
+                            <input required class="form-control" name="nombre" value="<%= request.getParameter("nombre")%>" type="text" placeholder="Ingrese Nombre"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label  for="direccion" class="form-label">Direccion</label>
+                            <input required class="form-control" name="direccion" value="<%= request.getParameter("direccion")%>" type="text" placeholder="Ingrese Direccion"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input  class="form-control" name="telefono" value="<%= request.getParameter("telefono")%>" type="tel" pattern="[0-9]{9}" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9)" maxlength="9" placeholder="Ingrese Teléfono" required />
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label  for="correo" class="form-label">Correo</label>
+                            <input required class="form-control" name="correo" type="text"  value="<%= request.getParameter("correo")%>"placeholder="Ingrese Correo"/>
+                        </div>
+                        <br>
+                        <input type="hidden" value="E" name="accion" />
+                        <br>
+                        <div class="d-grid gap-2" style="width: 100%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+                            <a href="./Paciente" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+*****************index.html********
+***********************************
+  <!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Desarrollo de Aplicaciones en Salud</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 50px;
+                padding-bottom: 20px;
+                background-color: #f8f9fa;
+                background-image: url('img/fondo.png');
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            .container {
+                max-width: 400px;
+                margin: 0 auto;
+                padding-top: 100px;
+            }
+
+            .content {
+                background-color: #ffffff;
+                padding: 20px;
+                max-width: 400px;
+                margin: 0 auto;
+                border-radius: 10px;
+            }
+
+            h3 {
+                color: #000000;
+                text-align: center;
+                margin-bottom: 50px;
+            }
+            img.logo {
+                display: block;
+                margin: 0 auto;
+                width: 200px;
+                height: auto;
+                margin-bottom: 5px;
+            }
+            input.form-control {
+                margin-bottom: 15px;
+            }
+            button.btn-success {
+                width: 100%;
+                background-color: #0D47A1; /* Color personalizado, reemplaza con el código de color deseado */
+                color: #ffffff; /* Color de texto */
+                /* Otros estilos de diseño si es necesario */
+                 border: 1px solid white;
+            }
+
+            button.btn-success:hover {
+                background-color: #1565C0; /* Nuevo color de fondo al pasar el cursor */
+                /* Otros estilos de diseño si es necesario */
+                 border: 1px solid white;
+            }
+            footer {
+                text-align: center;
+                margin-top: auto;
+                color: #6c757d;
+                padding: 20px;
+            }
+        </style>
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="content">
+                <img class="logo" alt="Logo" src="img/logo.png">
+
+                <form class="form" action="./Login" method="POST">
+                    <h3 style="margin-top:10px; margin-bottom: 30px;">Iniciar sesión</h3>
+                    <div class="form-group">
+                        <input type="text" placeholder="Usuario" class="form-control" id="usuario" name="usuario">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Contraseña" class="form-control" id="clave" name="clave">
+                    </div>
+                    <button style="margin-bottom: 10px;" type="submit" class="btn btn-success">Ingresar</button>
+                </form>
+            </div>
+        </div>
+        <footer>
+            <p>&copy; Compañía 2023. Todos los derechos reservados.</p>
+        </footer>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function (b, o, i, l, e, r) {
+                b.GoogleAnalyticsObject = l;
+                b[l] || (b[l] =
+                        function () {
+                            (b[l].q = b[l].q || []).push(arguments)
+                        });
+                b[l].l = +new Date;
+                e = o.createElement(i);
+                r = o.getElementsByTagName(i)[0];
+                e.src = '//www.google-analytics.com/analytics.js';
+                r.parentNode.insertBefore(e, r)
+            }(window, document, 'script', 'ga'));
+            ga('create', 'UA-XXXXX-X', 'auto');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>
+
+
+************listarespecialidad.html****
+***************************************
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Menu de Opciones</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <div class="container" >
+            <div class="row" >
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <br><br>
+                    <h3 class="text-success">Listado de Especialidades</h3>
+                    <br>
+                    <a href="nuevaespecialidad.html"><button class="btn btn-success glyphicon glyphicon-new-window">
+                            + Nueva Especialidad</button></a>
+               
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Nro</th>
+                            <th>Nombre</th>
+                            <th>Editar</th>
+                            <th>Borrar</th>                            
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+******listarpaciente.hmtl*****
+******************************
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Menu de Opciones</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <div class="container" >
+            <div class="row" >
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <h3 class="text-success">Listado de Pacientes</h3>
+                    <br>
+                    <a href="nuevopaciente.html"><button class="btn btn-success glyphicon glyphicon-new-window">
+                            Nuevo Paciente</button></a>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Nro</th>
+                            <th>DNI</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Edad</th>
+                            <th>Editar</th>
+                            <th>Borrar</th>                            
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>40404040</td>
+                            <td>Samuel</td>
+                            <td>Litas</td>
+                            <td>20</td>
+                            <td><button class="glyphicon glyphicon-edit btn btn-warning"> Editar </button></td>
+                            <td><button class="glyphicon glyphicon-hand-down btn btn-danger"> Borrar</button></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>20202020</td>
+                            <td>Yola</td>
+                            <td>Polastri</td>
+                            <td>25</td>
+                            <td><button class="glyphicon glyphicon-edit btn btn-warning"> Editar </button></td>
+                            <td><button class="glyphicon glyphicon-hand-down btn btn-danger"> Borrar</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+*******menú.html********
+************************
+
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Bienvenido(a)</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12"> 
+                    <h3  class="text-success text-center">MENU DE OPCIONES</h3>
+                </div>
+                <div class="col-md-4"> 
+                    <button class="btn btn-warning">Usuarios</button>
+                    <br>
+                    <br>
+                    <button class="btn btn-danger">Opciones</button>
+                </div>
+                <div class="col-md-4"> 
+                    <a href="listarpaciente.html">
+                        <button class="btn-default">
+                            <img class="img-thumbnail" width="52" alt="" src="img/paciente.png"/>
+                        </button>
+                    </a>
+                    <button class="btn-default">
+                        <img class="img-thumbnail" width="50" alt="" src="img/doc.png"/>
+                    </button>
+                </div>
+                <div class="col-md-4"> 
+                    <button class="btn btn-default glyphicon-book"> Reportes</button>
+                    <br><br>
+                    <button class="btn btn-default glyphicon-euro"> Pagos</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+*********************nuevacita.html***********
+**********************************************
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Registrar cita</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body> 
+        <br>
+
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <br>
+                    <h3>Registrar cita</h3>
+                    <form class="form" action="./Citas" method="POST">
+                        <div class="form-group" style="text-align:left;">
+                            <label for="idespecialidad" class="form-label ">Especialidad</label>
+                            <select class="form-select" name="idespecialidad"> 
+                                <option value="-1">Selecciona una especialidad</option>
+                                <%
+                                    try {
+                                        String Query = "SELECT * FROM tbespecialidad";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das", "root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while (rs.next()) {
+                                %>
+                                <option value="<%=rs.getInt("ID")%>"><%=rs.getString("Nombre")%></option>
+
+                                <%
+                                        }
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        out.println("Error: " + ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="iddoctor" class="form-label">Doctor</label>
+                            <select class="form-select" name="iddoctor"> 
+                                <option value="-1">Selecciona un doctor</option>
+                                <%
+                                    try {
+                                        String Query = "SELECT * FROM tbdoctor";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das", "root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while (rs.next()) {
+                                %>
+                                <option value="<%=rs.getInt("IdDoctor")%>"><%=rs.getString("Nombre")%></option>
+
+                                <%
+                                        }
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        out.println("Error: " + ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="idhorario" class="form-label">Turno</label>
+                            <select class="form-select" name="idhorario"> 
+                                <option value="-1">Selecciona un turno</option>
+                                <%
+                                    try {
+                                        String Query = "SELECT * FROM tbturno";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das", "root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while (rs.next()) {
+                                %>
+                                <option value="<%=rs.getInt("ID")%>"><%=rs.getString("Nombre")%></option>
+
+                                <%
+                                        }
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        out.println("Error: " + ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="fecha" class="form-label">Fecha</label>
+                            <input class="form-control" name="fecha" type="date" placeholder="Seleccione una fecha"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="idpaciente" class="form-label ">Paciente</label>
+                            <select class="form-select" name="idpaciente"> 
+                                <option value="-1">Selecciona un paciente</option>
+                                <%
+                                    try {
+                                        String Query = "SELECT * FROM tbpaciente";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das", "root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while (rs.next()) {
+                                %>
+                                <option value="<%=rs.getInt("ID")%>"><%=rs.getString("Nombre")%></option>
+
+                                <%
+                                        }
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        out.println("Error: " + ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="correo" class="form-label">Correo</label>
+                            <input class="form-control" name="correo" type="email" placeholder="Ingrese su correo"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="dni" class="form-label">DNI</label>
+                            <input class="form-control" name="dni" type="text" placeholder="Ingrese su DNI"/>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:left;">
+                            <label for="celular" class="form-label">Celular</label>
+                            <input class="form-control" name="celular" type="text" placeholder="Ingrese su celular"/>
+                        </div>
+                        <br>
+                        <input type="hidden" value="I" name="accion" />
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+                            <a href="./Citas" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+**************nuevaespecialidad.html******
+******************************************
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Registrar Especialidad</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <br>
+        <br>
+        <div class="container" style="width: 50%;">            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Registro de especialidad</h3>
+                    <br>
+                    <form class="form" action="./Especialidad" method="POST">
+                        <div class="form-group">
+                            <label  for="id" class="form-label">ID</label>
+                            <input class="form-control" name="id" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label  for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control" name="nombre" type="text" placeholder="Ingrese Nombre"/>
+                        </div>
+
+                        <input type="hidden" value="I" name="accion" />                        <br>
+                        <div class="d-grid gap-2" style="width: 100%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+                            <a href="./Especialidad" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+**************nuevo doctor.jsp **********
+*****************************************
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Registrar Doctor</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>        
+        <br>
+        <br>
+        <div class="container" style="width: 50%;">            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Registro de Doctor</h3>
+                            <br>
+                    <form class="form" action="./Doctor" method="POST">
+                        <div class="form-group">
+                            <label  for="iddoctor" class="form-label">ID</label>
+                            <input class="form-control" name="iddoctor" type="text" placeholder="Ingrese ID"/>
+                        </div>
+                                <br>
+                        <div class="form-group">
+                            <label  for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control" name="nombre" type="text" placeholder="Ingrese Nombre"/>
+                        </div>
+                                        <br>
+                        <div class="form-group">
+                            <label  for="idespecialidad" class="form-label">Especialidad</label>
+                            <select class="form-control"  name="idespecialidad"> 
+                                <option value="-1">Selecciona una especialidad</option>
+                                <% 
+                                    try
+                                    {
+                                        String Query = "SELECT * FROM tbespecialidad";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das","root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while(rs.next())
+                                        {  
+                                            %>
+                                                <option value="<%=rs.getInt("ID")%>"><%=rs.getString("Nombre")%></option>
+
+                                            <%
+                                        }
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        ex.printStackTrace();
+                                        out.println("Error: "+ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                                    <br>
+                       <div class="form-group" style="text-align:left;">
+                            <label for="idhorario" class="form-label">Turno</label>
+                            <select class="form-select" name="idhorario"> 
+                                <option value="-1">Selecciona un turno</option>
+                                <%
+                                    try {
+                                        String Query = "SELECT * FROM tbturno";
+                                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/bd_das", "root", "");
+                                        Statement stm = conn.createStatement();
+                                        ResultSet rs = stm.executeQuery(Query);
+                                        while (rs.next()) {
+                                %>
+                                <option value="<%=rs.getInt("ID")%>"><%=rs.getString("Nombre")%></option>
+
+                                <%
+                                        }
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        out.println("Error: " + ex.getMessage());
+                                    }
+                                %>  
+                            </select> 
+                        </div>
+                                    <br>
+                        <div class="form-group">
+                            <label  for="telefono" class="form-label">Telefono</label>
+                            <input class="form-control" name="telefono" type="text" placeholder="Ingrese Telefono"/>
+                        </div>
+                        <input type="hidden" value="I" name="accion" />
+                        <br>
+                        <div class="d-grid gap-2" style="width: 100%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+                            <a href="./Doctor" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>                    </form>
+                </div>
+                <div class="md-4"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+**********nuevopaciente.html**********
+**************************************
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Registrar Paciente</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="webjars/bootstrap/5.2.2/css/bootstrap.css">
+    </head>
+    <body>
+        <br>
+        <br>
+        <div class="container" style="width: 50%;">            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Registro de paciente</h3>          
+                    <br>
+                    <form class="form" action="./Paciente" method="POST">
+                        <div class="form-group">
+                            <label for="id" class="form-label">ID</label>
+                            <input required class="form-control" name="id" type="text" placeholder="Ingrese ID" style="width: 80%" />
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input required class="form-control" name="nombre" type="text" placeholder="Ingrese Nombre" style="width: 80%" />
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input required class="form-control" name="direccion" type="text" placeholder="Ingrese Dirección" style="width: 80%" />
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input required class="form-control" name="telefono" type="text" placeholder="Ingrese Teléfono" style="width: 80%" 
+                                   pattern="[0-9]{0,9}" maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9)" />
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label for="correo" class="form-label">Correo</label>
+                            <input required class="form-control" name="correo" type="email" placeholder="Ingrese Correo" style="width: 80%" />
+                        </div>
+                        <br>
+
+                        <input type="hidden" value="I" name="accion" />
+                        <br>
+                        <div class="d-grid gap-2" style="width: 80%;">          
+                            <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+                            <a href="./Paciente" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                    <div class="text-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+*******************************************
+**********SOURCE PACKAGES******************
+*******************************************
+package com.uwiener.das.javaweb;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class BDConexion {
+protected static Connection initializeDatabases() 
+        throws SQLException, ClassNotFoundException
+{
+    String bdDriver ="com.mysql.jdbc.Driver";
+    String bdURL="jdbc:mysql://localhost:3308/";
+    String bdUser="root";
+    String bdPass="";
+    String bdDataBase="bd_das";
+    Class.forName(bdDriver);
+    Connection cnx = DriverManager.getConnection(bdURL + bdDataBase, bdUser, bdPass);
+    return cnx;
+}
+    
+}
+
+
+*****************CitasServelet.java***************
+**************************************************
+package com.uwiener.das.javaweb;
+
+import static com.uwiener.das.javaweb.BDConexion.initializeDatabases;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "Citas", urlPatterns = {"/Citas"})
+public class CitasServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Connection cnx;
+        String sHtml = "";
+        VHtml objVHtml = new VHtml();
+        String sTabla = "";
+        try {
+            cnx = initializeDatabases();
+            PreparedStatement st = cnx.prepareStatement("SELECT IDCita, tbdoctor.Nombre AS Doctor, tbespecialidad.Nombre AS Especialidad, tbhorario.Nombre AS Horario, tbpaciente.Nombre as Paciente, dni, tbcita.correo, celular, DATE_FORMAT(Fecha, '%Y-%m-%d') AS Fecha,tbdoctor.IdDoctor AS idDoctor,tbespecialidad.ID AS idEspecialidad, tbpaciente.ID AS idPaciente,tbhorario.IDHorario AS idHorario FROM tbcita "
+                    + "INNER JOIN tbhorario ON tbhorario.idHorario = tbcita.IdHorario "
+                    + "INNER JOIN tbdoctor ON tbdoctor.IdDoctor = tbcita.IdDoctor "
+                    + "INNER JOIN tbespecialidad ON tbespecialidad.ID = tbcita.IdEspecialidad "
+                    + "INNER JOIN tbpaciente ON tbpaciente.ID = tbcita.IdPaciente ");
+            ResultSet rs = st.executeQuery();
+            sHtml = objVHtml.getHeader() + objVHtml.getBody()
+                    + "<h3 class=\"text-primary text-center\" style=\"color: black;\">Listado de citas</h3> <br>"
+                    + "                    <a href=\"nuevacita.jsp\"><button class=\"btn btn-success glyphicon glyphicon-new-window\">\n"
+                    + "                            Nueva cita</button></a>\n"
+                    + "<table class=\"table table-striped\" style=\"width: 200%; margin: 0 auto;\">\n"
+                    + "    <colgroup>\n"
+                    + "        <col style=\"width: 4.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 8.5%;\">\n"
+                    + "        <col style=\"width: 10.5%;\">\n"
+                    + "        <col style=\"width: 10.5%;\">\n"
+                    + "    </colgroup>\n"
+                    + "                        <tr>\n"
+                    + "                            <th>Nº</th>\n"
+                    + "                            <th>Doctor</th>\n"
+                    + "                            <th>Especialidad</th>\n"
+                    + "                            <th>Horario</th>\n"
+                    + "                            <th>Paciente</th>\n"
+                    + "                            <th>Fecha</th>\n"
+                    + "                            <th>Detalle</th>\n"
+                    + "                            <th>Borrar</th>\n"
+                    + "                        </tr>\n";
+            while (rs.next()) {
+                sTabla += "<tr>\n"
+                        + "   <td>" + rs.getInt(1) + "</td>\n"
+                        + "   <td>" + rs.getString(2) + "</td>\n"
+                        + "   <td>" + rs.getString(3) + "</td>\n"
+                        + "   <td>" + rs.getString(4) + "</td>\n"
+                        + "   <td>" + rs.getString(5) + "</td>\n"
+                        + "   <td>" + rs.getString(9) + "</td>\n"
+                        + "   <td><a href=\"./editarcita.jsp?idcita=" + rs.getInt(1) + "&doctor=" + rs.getString(2) + "&especialidad=" + rs.getString(3) + "&horario=" + rs.getString(4) + "&paciente=" + rs.getString(5) + "&dni=" + rs.getString(6) + "&correo=" + rs.getString(7) + "&celular=" + rs.getString(8) + "&fecha=" + rs.getString(9) + "&iddoctor=" + rs.getString(10) + "&idespecialidad=" + rs.getString(11) + "&idpaciente=" + rs.getString(12) + "&idhorario=" + rs.getString(13) + "\"><button class=\"btn btn-warning\"> Editar</button></a></td>\n"
+                        + "   <td><a href=\"./borrarcita.jsp?idcita=" + rs.getInt(1) + "&doctor=" + rs.getString(2) + "&especialidad=" + rs.getString(3) + "&horario=" + rs.getString(4) + "&paciente=" + rs.getString(5) + "&dni=" + rs.getString(6) + "&correo=" + rs.getString(7) + "&celular=" + rs.getString(8) + "&fecha=" + rs.getString(9) + "&iddoctor=" + rs.getString(10) + "&idespecialidad=" + rs.getString(11) + "&idpaciente=" + rs.getString(12) + "&idhorario=" + rs.getString(13) + "\"><button class=\"btn btn-danger\"> Borrar</button></a></td>\n"
+                        + "</tr>\n";
+            }
+            sHtml += sTabla + "</table>"
+                    + "<br>"
+                    + "<br>"
+                    + "<div class=\"\">"
+                    + "    <a href=\"./Login\" class=\"btn btn-secondary btn-lg\">Volver al Menú</a>"
+                    + "</div>"
+                    + objVHtml.getFooter();
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(sHtml);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.toString();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Connection cnx;
+        try {
+            cnx = initializeDatabases();
+            PreparedStatement st = null;
+            switch (request.getParameter("accion")) {
+                case "I":
+                    st = cnx.prepareStatement("INSERT INTO tbcita (IdEspecialidad, IdDoctor, IdHorario, IdPaciente, correo, dni, celular, Fecha) VALUES (?,?,?,?,?,?,?,?)");
+                    st.setString(1, request.getParameter("idespecialidad").toString());
+                    st.setString(2, request.getParameter("iddoctor").toString());
+                    st.setString(3, request.getParameter("idhorario").toString());
+                    st.setString(4, request.getParameter("idpaciente").toString());
+                    st.setString(5, request.getParameter("correo").toString());
+                    st.setString(6, request.getParameter("dni").toString());
+                    st.setString(7, request.getParameter("celular").toString());
+                    st.setString(8, request.getParameter("fecha").toString());
+                    st.executeUpdate();
+                    response.sendRedirect("./Citas");
+                    break;
+                case "E":
+                    st = cnx.prepareStatement("update tbcita set IdEspecialidad=?,IdDoctor=?,IdHorario=?,IdPaciente=?,correo=?,dni=?,celular=?,Fecha=? where IDCita=?");
+                    st.setString(1, request.getParameter("idespecialidad").toString());
+                    st.setString(2, request.getParameter("iddoctor").toString());
+                    st.setString(3, request.getParameter("idhorario").toString());
+                    st.setString(4, request.getParameter("idpaciente").toString());
+                    st.setString(5, request.getParameter("correo").toString());
+                    st.setString(6, request.getParameter("dni").toString());
+                    st.setString(7, request.getParameter("celular").toString());
+                    st.setString(8, request.getParameter("fecha").toString());
+                    st.setString(9, request.getParameter("idcita").toString());
+
+                    st.executeUpdate();
+                    response.sendRedirect("./Citas");
+                    break;
+                case "B":
+                    st = cnx.prepareStatement("delete from tbcita where IdCita=?");
+                    st.setString(1, request.getParameter("idcita"));
+                    st.executeUpdate();
+                    response.sendRedirect("./Citas");
+                    break;
+                default:
+                    break;
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(ex.toString() + " - " + request.getParameter("nombre")
+                    + " - " + request.getParameter("idespecialidad")
+                    + " - " + request.getParameter("idhorario") + " - "
+                    + request.getParameter("telefono") + " - "
+                    + request.getParameter("iddoctor"));
+        }
+    }
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
+*************DoctorServlet.java***********
+******************************************
+
+package com.uwiener.das.javaweb;
+
+import static com.uwiener.das.javaweb.BDConexion.initializeDatabases;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "Doctor", urlPatterns = {"/Doctor"})
+public class DoctorServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Connection cnx;
+        String sHtml = "";
+        VHtml objVHtml = new VHtml();
+        String sTabla = "";
+        try {
+            cnx = initializeDatabases();
+            PreparedStatement st = cnx.prepareStatement("SELECT tbdoctor.IdDoctor,tbdoctor.Nombre,"
+                    + "tbdoctor.IdEspecialidad,tbdoctor.idHorario,tbdoctor.Telefono, "
+                    + "tbespecialidad.Nombre ENombres, tbhorario.Nombre HNombre  "
+                    + "FROM tbdoctor "
+                    + "inner join tbhorario on tbdoctor.idHorario=tbhorario.IDHorario "
+                    + "inner join tbespecialidad on tbdoctor.IdEspecialidad=tbespecialidad.ID");
+            ResultSet rs = st.executeQuery();
+            sHtml = objVHtml.getHeader() + objVHtml.getBody()
+                    + "<h3 class=\"text-primary text-center\">Lista de Doctores</h3> <br>"
+                    + "<a href=\"nuevodoctor.jsp\"><button class=\"btn btn-success glyphicon glyphicon-new-window\">\n"
+                    + "Nuevo doctor</button></a>\n"
+                    + "<table class=\"table table-striped\" style=\"width: 220%; margin: 0 auto;\">\n"
+                    + "    <colgroup>\n"
+                    + "        <col style=\"width: 4.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 8.5%;\">\n"
+                    + "        <col style=\"width: 10.5%;\">\n"
+                    + "        <col style=\"width: 10.5%;\">\n"
+                    + "    </colgroup>\n"
+                    + "<tr>\n"
+                    + "<th>Nº</th>\n"
+                    + "<th>Nombre</th>\n"
+                    + "<th>Especialidad</th>\n"
+                    + "<th>Horario</th>\n"
+                    + "<th>Telefono</th>\n"
+                    + "<th>Editar</th>\n"
+                    + "<th>Borrar</th>\n"
+                    + "</tr>\n";
+            while (rs.next()) {
+                sTabla += "<tr>\n"
+                        + "   <td>" + rs.getInt(1) + "</td>\n"
+                        + "   <td>" + rs.getString(2) + "</td>\n"
+                        + "   <td>" + rs.getString(6) + "</td>\n"
+                        + "   <td>" + rs.getString(7) + "</td>\n"
+                        + "   <td>" + rs.getString(5) + "</td>\n"
+                        + "   <td><a href=\"./borrardoctor.jsp?iddoctor=" + rs.getInt(1) + "&nombre=" + rs.getString(2) + "&idespecialidad=" + rs.getInt(3) + "&idhorario=" + rs.getInt(4) + "&telefono=" + rs.getString(5) + "\"><button class=\"btn btn-warning\"> Editar</button></a></td>\n"
+                        + "   <td><a href=\"./editardoctor.jsp?iddoctor=" + rs.getInt(1) + "&nombre=" + rs.getString(2) + "&idespecialidad=" + rs.getInt(3) + "&idhorario=" + rs.getInt(4) + "&telefono=" + rs.getString(5) + "\"><button class=\"btn btn-danger\"> Borrar</button></a></td>\n"
+                        + "</tr>\n";
+            }
+            sHtml += sTabla + "</table>"
+                            + "<br>"
+                            + "<br>"
+                    + "<div class=\"\">"
+                    + "    <a href=\"./Login\" class=\"btn btn-secondary btn-lg\">Volver al Menú</a>"
+                    + "</div>"
+                    + objVHtml.getFooter();
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(sHtml);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.toString();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Connection cnx;
+        try {
+            cnx = initializeDatabases();
+            PreparedStatement st = null;
+            if (request.getParameter("accion").equals("I")) {
+                st = cnx.prepareStatement("insert into tbdoctor (IdDoctor,Nombre,IdEspecialidad,IDHorario, Telefono) values(?,?,?,?,?)");
+                st.setString(1, request.getParameter("iddoctor").toString());
+                st.setString(2, request.getParameter("nombre").toString());
+                st.setString(3, request.getParameter("idespecialidad").toString());
+                st.setString(4, request.getParameter("idhorario").toString());
+                st.setString(5, request.getParameter("telefono").toString());
+                st.executeUpdate();
+                response.sendRedirect("./Doctor");
+            } else if (request.getParameter("accion").equals("E")) {
+                st = cnx.prepareStatement("update tbdoctor set Nombre=?,IdEspecialidad=?,IdHorario=?,Telefono=? where IdDoctor=?");
+                st.setString(1, request.getParameter("nombre").toString());
+                st.setString(2, request.getParameter("idespecialidad").toString());
+                st.setString(3, request.getParameter("idhorario").toString());
+                st.setString(4, request.getParameter("telefono").toString());
+                st.setString(5, request.getParameter("iddoctor"));
+                st.executeUpdate();
+                response.sendRedirect("./Doctor");
+            } else if (request.getParameter("accion").equals("B")) {
+                st = cnx.prepareStatement("delete from tbdoctor where IdDoctor=?");
+                st.setString(1, request.getParameter("iddoctor"));
+                st.executeUpdate();
+                response.sendRedirect("./Doctor");
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(ex.toString() + " - " + request.getParameter("nombre")
+                    + " - " + request.getParameter("idespecialidad")
+                    + " - " + request.getParameter("idhorario") + " - "
+                    + request.getParameter("telefono") + " - "
+                    + request.getParameter("iddoctor"));
+        }
+    }
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
+
+************* EspecialidadServlet.java******************
+********************************************************
+
+package com.uwiener.das.javaweb;
+
+import static com.uwiener.das.javaweb.BDConexion.initializeDatabases;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "Doctor", urlPatterns = {"/Doctor"})
+public class DoctorServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Connection cnx;
+        String sHtml = "";
+        VHtml objVHtml = new VHtml();
+        String sTabla = "";
+        try {
+            cnx = initializeDatabases();
+            PreparedStatement st = cnx.prepareStatement("SELECT tbdoctor.IdDoctor,tbdoctor.Nombre,"
+                    + "tbdoctor.IdEspecialidad,tbdoctor.idHorario,tbdoctor.Telefono, "
+                    + "tbespecialidad.Nombre ENombres, tbhorario.Nombre HNombre  "
+                    + "FROM tbdoctor "
+                    + "inner join tbhorario on tbdoctor.idHorario=tbhorario.IDHorario "
+                    + "inner join tbespecialidad on tbdoctor.IdEspecialidad=tbespecialidad.ID");
+            ResultSet rs = st.executeQuery();
+            sHtml = objVHtml.getHeader() + objVHtml.getBody()
+                    + "<h3 class=\"text-primary text-center\">Lista de Doctores</h3> <br>"
+                    + "<a href=\"nuevodoctor.jsp\"><button class=\"btn btn-success glyphicon glyphicon-new-window\">\n"
+                    + "Nuevo doctor</button></a>\n"
+                    + "<table class=\"table table-striped\" style=\"width: 220%; margin: 0 auto;\">\n"
+                    + "    <colgroup>\n"
+                    + "        <col style=\"width: 4.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 14.5%;\">\n"
+                    + "        <col style=\"width: 8.5%;\">\n"
+                    + "        <col style=\"width: 10.5%;\">\n"
+                    + "        <col style=\"width: 10.5%;\">\n"
+                    + "    </colgroup>\n"
+                    + "<tr>\n"
+                    + "<th>Nº</th>\n"
+                    + "<th>Nombre</th>\n"
+                    + "<th>Especialidad</th>\n"
+                    + "<th>Horario</th>\n"
+                    + "<th>Telefono</th>\n"
+                    + "<th>Editar</th>\n"
+                    + "<th>Borrar</th>\n"
+                    + "</tr>\n";
+            while (rs.next()) {
+                sTabla += "<tr>\n"
+                        + "   <td>" + rs.getInt(1) + "</td>\n"
+                        + "   <td>" + rs.getString(2) + "</td>\n"
+                        + "   <td>" + rs.getString(6) + "</td>\n"
+                        + "   <td>" + rs.getString(7) + "</td>\n"
+                        + "   <td>" + rs.getString(5) + "</td>\n"
+                        + "   <td><a href=\"./borrardoctor.jsp?iddoctor=" + rs.getInt(1) + "&nombre=" + rs.getString(2) + "&idespecialidad=" + rs.getInt(3) + "&idhorario=" + rs.getInt(4) + "&telefono=" + rs.getString(5) + "\"><button class=\"btn btn-warning\"> Editar</button></a></td>\n"
+                        + "   <td><a href=\"./editardoctor.jsp?iddoctor=" + rs.getInt(1) + "&nombre=" + rs.getString(2) + "&idespecialidad=" + rs.getInt(3) + "&idhorario=" + rs.getInt(4) + "&telefono=" + rs.getString(5) + "\"><button class=\"btn btn-danger\"> Borrar</button></a></td>\n"
+                        + "</tr>\n";
+            }
+            sHtml += sTabla + "</table>"
+                            + "<br>"
+                            + "<br>"
+                    + "<div class=\"\">"
+                    + "    <a href=\"./Login\" class=\"btn btn-secondary btn-lg\">Volver al Menú</a>"
+                    + "</div>"
+                    + objVHtml.getFooter();
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(sHtml);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.toString();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Connection cnx;
+        try {
+            cnx = initializeDatabases();
+            PreparedStatement st = null;
+            if (request.getParameter("accion").equals("I")) {
+                st = cnx.prepareStatement("insert into tbdoctor (IdDoctor,Nombre,IdEspecialidad,IDHorario, Telefono) values(?,?,?,?,?)");
+                st.setString(1, request.getParameter("iddoctor").toString());
+                st.setString(2, request.getParameter("nombre").toString());
+                st.setString(3, request.getParameter("idespecialidad").toString());
+                st.setString(4, request.getParameter("idhorario").toString());
+                st.setString(5, request.getParameter("telefono").toString());
+                st.executeUpdate();
+                response.sendRedirect("./Doctor");
+            } else if (request.getParameter("accion").equals("E")) {
+                st = cnx.prepareStatement("update tbdoctor set Nombre=?,IdEspecialidad=?,IdHorario=?,Telefono=? where IdDoctor=?");
+                st.setString(1, request.getParameter("nombre").toString());
+                st.setString(2, request.getParameter("idespecialidad").toString());
+                st.setString(3, request.getParameter("idhorario").toString());
+                st.setString(4, request.getParameter("telefono").toString());
+                st.setString(5, request.getParameter("iddoctor"));
+                st.executeUpdate();
+                response.sendRedirect("./Doctor");
+            } else if (request.getParameter("accion").equals("B")) {
+                st = cnx.prepareStatement("delete from tbdoctor where IdDoctor=?");
+                st.setString(1, request.getParameter("iddoctor"));
+                st.executeUpdate();
+                response.sendRedirect("./Doctor");
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(ex.toString() + " - " + request.getParameter("nombre")
+                    + " - " + request.getParameter("idespecialidad")
+                    + " - " + request.getParameter("idhorario") + " - "
+                    + request.getParameter("telefono") + " - "
+                    + request.getParameter("iddoctor"));
+        }
+    }
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
+**************LoginServlet.java*************
+********************************************
+
+package com.uwiener.das.javaweb;
+
+import static com.uwiener.das.javaweb.BDConexion.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
+public class LoginServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String sHtml = "";
+        VHtml objVHtml = new VHtml();
+                sHtml = objVHtml.getHeader() + objVHtml.getBody()
+                        + "<h3 style=\"text-align: center; margin-bottom: 30px;\">Bienvenido(a) al sistema DOCLINECITAS</h3>"
+                        + "<div style=\"display: flex; justify-content: center;\">"
+                        + "<div style=\"text-align: center; margin-right: 20px;\">"
+                        + "<a href=\"./Paciente\" style=\"display: inline-block; padding: 10px; background-color: #d2f1dc; border-radius: 10px; text-decoration: none; color: black; margin-top: 15px;\">"
+                        + "<img class=\"img-responsive center-block\" src=\"img/paci.png\" style=\"width: 100px; height: 100px; margin-bottom: 15px;\" /><br>"
+                        + "Paciente</a>"
+                        + "</div>"
+                        + "<div style=\"text-align: center; margin-left: 20px;; margin-right: 20px;\">"
+                        + "<a href=\"./Doctor\" style=\"display: inline-block; padding: 10px; background-color: #d2e7f1; border-radius: 10px; text-decoration: none; color: black; margin-top: 15px;\">"
+                        + "<img class=\"img-responsive center-block\" src=\"img/docto.png\" style=\"width: 100px; height: 100px; margin-bottom: 15px;\" /><br>"
+                        + "Doctores</a>"
+                        + "</div>"
+                        + "<div style=\"text-align: center; margin-left: 20px;; margin-right: 20px;\">"
+                        + "<a href=\"./Especialidad\" style=\"display: inline-block; padding: 10px; background-color: #f1d2e7; border-radius: 10px; text-decoration: none; color: black; margin-top: 15px;\">"
+                        + "<img class=\"img-responsive center-block\" src=\"img/espe.png\" style=\"width: 100px; height: 100px; margin-bottom: 15px;\" /><br>"
+                        + "Especialidades</a>"
+                        + "</div>"
+                        + "<div style=\"text-align: center; margin-left: 20px;; margin-right: 20px;\">"
+                        + "<a href=\"./Citas\" style=\"display: inline-block; padding: 10px; background-color: #f1dcd2; border-radius: 10px; text-decoration: none; color: black; margin-top: 15px;\">"
+                        + "<img class=\"img-responsive center-block\" src=\"img/citas.png\" style=\"width: 100px; height: 100px; margin-bottom: 15px;\" /><br>"
+                        + "Citas</a>"
+                        + "</div>"
+                        + "</div>"
+                        + objVHtml.getFooter();
+                response.setContentType("text/html;charset=UTF-8");
+                PrintWriter out = response.getWriter();
+                out.println(sHtml);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //processRequest(request, response);
+        Connection cnx;
+        String sNombre = "";
+        String sHtml = "";
+        VHtml objVHtml = new VHtml();
+        try {
+            cnx = initializeDatabases();
+            PreparedStatement st = cnx.prepareStatement("Select nombre from tbusuario where usuario =? and clave =?");
+            st.setString(1, request.getParameter("usuario").toString());
+            st.setString(2, request.getParameter("clave").toString());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                sNombre = rs.getString(1);
+            }
+            if (sNombre.equals("")) {
+                response.sendRedirect("index.html");
+            } else {
+                sHtml = objVHtml.getHeader() + objVHtml.getBody()
+                        + "<h3 style=\"text-align: center; margin-bottom: 30px;\">Bienvenido(a) al sistema DOCLINECITAS</h3>"
+                        + "<div style=\"display: flex; justify-content: center;\">"
+                        + "<div style=\"text-align: center; margin-right: 20px;\">"
+                        + "<a href=\"./Paciente\" style=\"display: inline-block; padding: 10px; background-color: #d2f1dc; border-radius: 10px; text-decoration: none; color: black; margin-top: 15px;\">"
+                        + "<img class=\"img-responsive center-block\" src=\"img/paci.png\" style=\"width: 100px; height: 100px; margin-bottom: 15px;\" /><br>"
+                        + "Paciente</a>"
+                        + "</div>"
+                        + "<div style=\"text-align: center; margin-left: 20px;; margin-right: 20px;\">"
+                        + "<a href=\"./Doctor\" style=\"display: inline-block; padding: 10px; background-color: #d2e7f1; border-radius: 10px; text-decoration: none; color: black; margin-top: 15px;\">"
+                        + "<img class=\"img-responsive center-block\" src=\"img/docto.png\" style=\"width: 100px; height: 100px; margin-bottom: 15px;\" /><br>"
+                        + "Doctores</a>"
+                        + "</div>"
+                        + "<div style=\"text-align: center; margin-left: 20px;; margin-right: 20px;\">"
+                        + "<a href=\"./Especialidad\" style=\"display: inline-block; padding: 10px; background-color: #f1d2e7; border-radius: 10px; text-decoration: none; color: black; margin-top: 15px;\">"
+                        + "<img class=\"img-responsive center-block\" src=\"img/espe.png\" style=\"width: 100px; height: 100px; margin-bottom: 15px;\" /><br>"
+                        + "Especialidades</a>"
+                        + "</div>"
+                        + "<div style=\"text-align: center; margin-left: 20px;; margin-right: 20px;\">"
+                        + "<a href=\"./Citas\" style=\"display: inline-block; padding: 10px; background-color: #f1dcd2; border-radius: 10px; text-decoration: none; color: black; margin-top: 15px;\">"
+                        + "<img class=\"img-responsive center-block\" src=\"img/citas.png\" style=\"width: 100px; height: 100px; margin-bottom: 15px;\" /><br>"
+                        + "Citas</a>"
+                        + "</div>"
+                        + "</div>"
+                        + objVHtml.getFooter();
+                response.setContentType("text/html;charset=UTF-8");
+                PrintWriter out = response.getWriter();
+                out.println(sHtml);
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.toString();
+        }
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
+*******************PacienteServlet.java**************
+*****************************************************
+
+package com.uwiener.das.javaweb;
+
+import static com.uwiener.das.javaweb.BDConexion.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "Paciente", urlPatterns = {"/Paciente"})
+public class PacienteServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Connection cnx;
+        String sHtml = "";
+        VHtml objVHtml = new VHtml();
+        String sTabla = "";
+        try {
+            cnx = initializeDatabases();
+            PreparedStatement st = cnx.prepareStatement("SELECT ID,Nombre,Direccion,Telefono,Correo FROM tbpaciente ");
+            ResultSet rs = st.executeQuery();
+            sHtml = objVHtml.getHeader() + objVHtml.getBody()
+                    + "<h3 class=\"text-primary text-center\">Lista de Pacientes</h3> <br>"
+                    + "<a href=\"nuevopaciente.html\"><button class=\"btn btn-success glyphicon glyphicon-new-window\">\n"
+                    + "                            Nuevo paciente</button></a>\n"
+                    + "<table class=\"table table-striped\" style=\"width: 200%;\">\n"
+                    + "    <colgroup>\n"
+                    + "        <col style=\"width: 5%;\">\n"
+                    + "        <col style=\"width: 20%;\">\n"
+                    + "        <col style=\"width: 20%;\">\n"
+                    + "        <col style=\"width: 15%;\">\n"
+                    + "        <col style=\"width: 15%;\">\n"
+                    + "        <col style=\"width: 12.5%;\">\n"
+                    + "        <col style=\"width: 12.5%;\">\n"
+                    + "    </colgroup>\n"
+                    + "    <tr>\n"
+                    + "        <th>Nº</th>\n"
+                    + "        <th>Nombre</th>\n"
+                    + "        <th>Direccion</th>\n"
+                    + "        <th>Telefono</th>\n"
+                    + "        <th>Correo</th>\n"
+                    + "        <th>Editar</th>\n"
+                    + "        <th>Borrar</th>\n"
+                    + "    </tr>\n";
+            while (rs.next()) {
+                sTabla += "<tr>\n"
+                        + "   <td>" + rs.getInt(1) + "</td>\n"
+                        + "   <td>" + rs.getString(2) + "</td>\n"
+                        + "   <td>" + rs.getString(3) + "</td>\n"
+                        + "   <td>" + rs.getString(4) + "</td>\n"
+                        + "   <td>" + rs.getString(5) + "</td>\n"
+                        + "   <td><a href=\"./editarpaciente.jsp?id=" + rs.getInt(1) + "&nombre=" + rs.getString(2) + "&direccion=" + rs.getString(3) + "&telefono=" + rs.getString(4) + "&correo=" + rs.getString(5) + "\"><button class=\"btn btn-warning\"> Editar</button></a></td>\n"
+                        + "   <td><a href=\"./borrarpaciente.jsp?id=" + rs.getInt(1) + "&nombre=" + rs.getString(2) + "&direccion=" + rs.getString(3) + "&telefono=" + rs.getString(4) + "&correo=" + rs.getString(5) + "\"><button class=\"btn btn-danger\"> Borrar</button></a></td>\n"
+                        + "</tr>\n";
+            }
+            sHtml += sTabla + "</table>"
+                    + "<br>"
+                    + "<br>"
+                    + "<div class=\"\">"
+                    + "    <a href=\"./Login\" class=\"btn btn-secondary btn-lg\">Volver al Menú</a>"
+                    + "</div>"
+                    + objVHtml.getFooter();
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(sHtml);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.toString();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Connection cnx;
+        try {
+            cnx = initializeDatabases();
+            PreparedStatement st = null;
+            if (request.getParameter("accion").equals("I")) {
+                st = cnx.prepareStatement("insert into tbpaciente (ID,Nombre,Direccion,Telefono,Correo) values(?,?,?,?,?)");
+                st.setString(1, request.getParameter("id").toString());
+                st.setString(2, request.getParameter("nombre").toString());
+                st.setString(3, request.getParameter("direccion").toString());
+                st.setString(4, request.getParameter("telefono").toString());
+                st.setString(5, request.getParameter("correo").toString());
+                st.executeUpdate();
+                response.sendRedirect("./Paciente");
+            } else if (request.getParameter("accion").equals("E")) {
+                st = cnx.prepareStatement("update tbpaciente set Nombre=?,Direccion=?,Telefono=?,Correo=? where ID=?");
+                st.setString(1, request.getParameter("nombre").toString());
+                st.setString(2, request.getParameter("direccion").toString());
+                st.setString(3, request.getParameter("telefono").toString());
+                st.setString(4, request.getParameter("correo").toString());
+                st.setString(5, request.getParameter("id").toString());
+                st.executeUpdate();
+                response.sendRedirect("./Paciente");
+            } else if (request.getParameter("accion").equals("B")) {
+                st = cnx.prepareStatement("delete from tbpaciente where ID=?");
+                st.setString(1, request.getParameter("id").toString());
+                st.executeUpdate();
+                response.sendRedirect("./Paciente");
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.toString();
+        }
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
+
+************VHtml.java********
+******************************
+
+package com.uwiener.das.javaweb;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class VHtml {
+    private String Header;
+    private String Body;
+    private String Footer;
+    
+
+    public VHtml(){
+        this.setHeader("<!doctype html>\n" +
+                        "<html class=\"no-js\" lang=\"\"> <!--<![endif]-->\n" +
+                        "    <head>\n" +
+                        "        <meta charset=\"utf-8\">\n" +
+                        "        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n" +
+                        "        <title>Desarrollo de Aplicaciones en Salud</title>\n" +
+                        "        <meta name=\"description\" content=\"\">\n" +
+                        "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+                        "        <link rel=\"apple-touch-icon\" href=\"apple-touch-icon.png\">\n" +
+                        "\n" +
+                        "        <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n" +
+                        "        <style>\n" +
+                        "            body {\n" +
+                        "                padding-top: 50px;\n" +
+                        "                padding-bottom: 20px;\n" +
+                        "            }\n" +
+                        "        </style>\n" +
+                        "        <link rel=\"stylesheet\" href=\"webjars/bootstrap/5.2.2/css/bootstrap.css\">\n" +
+                        "    </head>");
+        
+        this.setFooter("        </div>\n" +
+                        "        <div class=\"col-md-3\"></div>\n" +
+                        "      </div>      \n" +
+                        "      <footer>\n" +
+                        "        <p class=\"center\"></p>\n" +
+                        "      </footer>\n" +
+                        "    </div> \n" +
+                        "        <!-- /container -->        \n" +
+                        "        <script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js\"></script>\n" +
+                        "        <script>window.jQuery || document.write('<script src=\"js/vendor/jquery-1.11.2.min.js\"><\\/script>')</script>\n" +
+                        "\n" +
+                        "        <script src=\"js/vendor/bootstrap.min.js\"></script>\n" +
+                        "\n" +
+                        "        <script src=\"js/main.js\"></script>\n" +
+                        "\n" +
+                        "        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->\n" +
+                        "        <script>\n" +
+                        "            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=\n" +
+                        "            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;\n" +
+                        "            e=o.createElement(i);r=o.getElementsByTagName(i)[0];\n" +
+                        "            e.src='//www.google-analytics.com/analytics.js';\n" +
+                        "            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));\n" +
+                        "            ga('create','UA-XXXXX-X','auto');ga('send','pageview');\n" +
+                        "        </script>\n" +
+                        "    </body>\n" +
+                        "</html>\n" +
+                        "");
+        this.setBody("<body>\n" +
+                        "    <div class=\"container\">\n" +
+                        "      <!-- Example row of columns -->\n" +
+                        "      <div class=\"row\">\n" +
+                        "        <div class=\"col-md-3\"></div>\n" +
+                        "        <div class=\"col-md-6\">");
+    }
+
+    public String getHeader() {
+        return Header;
+    }
+
+    public void setHeader(String Header) {
+        this.Header = Header;
+    }
+
+    public String getFooter() {
+        return Footer;
+    }
+
+
+    public void setFooter(String Footer) {
+        this.Footer = Footer;
+    }
+
+    public String getBody() {
+        return Body;
+    }
+
+    public void setBody(String Body) {
+        this.Body = Body;
+    }
+}
+
+
 
